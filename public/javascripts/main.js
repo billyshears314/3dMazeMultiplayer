@@ -80,8 +80,8 @@
 		
 				spinValue = spinValue+1;		
 		
-				var xLook = 300*Math.cos(30*spinValue*Math.PI/180)+100;
-				var yLook = 300*Math.sin(30*spinValue*Math.PI/180)+100;		
+				var xLook = 300*Math.cos(30*spinValue*Math.PI/180)+camera.position.x;
+				var yLook = 300*Math.sin(30*spinValue*Math.PI/180)+camera.position.y;		
 				
       		camera.lookAt(new THREE.Vector3(xLook, yLook, 210));      		
       		
@@ -124,8 +124,8 @@
 
 				spinValue = spinValue-1;		
 		
-				var xLook = 300*Math.cos(30*spinValue*Math.PI/180)+100;
-				var yLook = 300*Math.sin(30*spinValue*Math.PI/180)+100;					
+				var xLook = 300*Math.cos(30*spinValue*Math.PI/180)+camera.position.x;
+				var yLook = 300*Math.sin(30*spinValue*Math.PI/180)+camera.position.y;					
 				
       		camera.lookAt(new THREE.Vector3(xLook, yLook, 210));        		
       		
