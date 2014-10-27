@@ -3,11 +3,16 @@
       var lastTime = 0;
 		var scaleState = 1; 
 		var speed = 30;
+				
+		var spinValue = 8;
+		var cubeSize = 300;		
+		var degreeOfRotation = 22.5;
+
+		var xStartingLocation = 10;
+		var yStartingLocation = 8;
 		
-		var spinValue = 0;
-				
 		var currentColorCode = 'aaa';
-				
+		
 		
       // this function is executed on each animation frame
       function animate(){
@@ -27,11 +32,18 @@
       document.body.appendChild(renderer.domElement);
 		renderer.setClearColor( 0x7ec0ee, 1); 
  
+ 
+
+ 
       // camera
       var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 6000);
-      camera.position.set(100,100,275);
+      camera.position.set(100+cubeSize*xStartingLocation, 100+cubeSize*yStartingLocation,275);
+      
+					var xLook = 300*Math.cos(degreeOfRotation*spinValue*Math.PI/180)+camera.position.x;
+				var yLook = 300*Math.sin(degreeOfRotation*spinValue*Math.PI/180)+camera.position.y;		       
+      
 	   camera.up = new THREE.Vector3(0,0,1);
-	   camera.lookAt(new THREE.Vector3(400, 100,210));
+	   camera.lookAt(new THREE.Vector3(xLook, yLook, 210));
  
       // scene
       var scene = new THREE.Scene();
@@ -42,6 +54,15 @@
        texture.repeat.set( 1, 1 );
        
        var wood_floor = new THREE.MeshLambertMaterial({
+       	map: texture
+       });	
+       
+       texture = THREE.ImageUtils.loadTexture( "images/stone_wall.jpg" );
+       texture.wrapS = THREE.RepeatWrapping; 
+       texture.wrapT = THREE.RepeatWrapping; 
+       texture.repeat.set( 1, 1 );
+       
+       var stone_wall = new THREE.MeshLambertMaterial({
        	map: texture
        });	
        	
@@ -58,20 +79,52 @@
 		var light = new THREE.AmbientLight( 0x606060 ); // soft white light 
 		scene.add( light ); 
  
- 		var board = [1, 1, 1, 1, 1, 
- 						 1, 1, 1, 1, 1, 
- 						 1, 1, 1, 1, 1,
- 						 1, 1, 1, 1, 1,
- 						 1, 1, 1, 1, 1];	
-		createMap(board, 0);
+ 		var board = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+  						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+ 						 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+ 						];
+		createMap(board, 0, wood_floor);
 				
-			 board = [0, 0, 0, 0, 1,
-			 			 0, 0, 0, 0, 1,
-			 			 0, 0, 0, 0, 1,
-			 			 0, 0, 0, 0, 1,
-			 			 0, 1, 1, 0, 1];
+			 board = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+  						 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+ 						 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1,
+ 						 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1,
+ 						 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1,
+ 						 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1,
+ 						 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1,
+ 						 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1,
+ 						 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1,
+ 						 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
+ 						 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1,
+ 						 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1,
+ 						 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1,
+ 						 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1,
+ 						 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1,
+ 						 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1,
+ 						 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1,
+ 						 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1,
+ 						 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+ 						 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+ 						];
 		
-		createMap(board, 1);
+		createMap(board, 1, wood_floor);
  
       // start animation
       animate();     
@@ -80,8 +133,8 @@
 		
 				spinValue = spinValue+1;		
 		
-				var xLook = 300*Math.cos(30*spinValue*Math.PI/180)+camera.position.x;
-				var yLook = 300*Math.sin(30*spinValue*Math.PI/180)+camera.position.y;		
+				var xLook = 300*Math.cos(degreeOfRotation*spinValue*Math.PI/180)+camera.position.x;
+				var yLook = 300*Math.sin(degreeOfRotation*spinValue*Math.PI/180)+camera.position.y;		
 				
       		camera.lookAt(new THREE.Vector3(xLook, yLook, 210));      		
       		
@@ -94,8 +147,8 @@
       	
       	KeyboardJS.on('s', function(){
       		
-				var xMove = speed*Math.cos(30*spinValue*Math.PI/180);
-				var yMove = speed*Math.sin(30*spinValue*Math.PI/180);
+				var xMove = speed*Math.cos(degreeOfRotation*spinValue*Math.PI/180);
+				var yMove = speed*Math.sin(degreeOfRotation*spinValue*Math.PI/180);
       		
      			camera.position.x = camera.position.x - xMove;
 				camera.position.y = camera.position.y - yMove;          		
@@ -108,8 +161,8 @@
       	
       	KeyboardJS.on('w', function(){
       		
-      		var xMove = speed*Math.cos(30*spinValue*Math.PI/180);
-				var yMove = speed*Math.sin(30*spinValue*Math.PI/180);
+      		var xMove = speed*Math.cos(degreeOfRotation*spinValue*Math.PI/180);
+				var yMove = speed*Math.sin(degreeOfRotation*spinValue*Math.PI/180);
       		
      			camera.position.x = camera.position.x + xMove;
 				camera.position.y = camera.position.y + yMove;     			
@@ -124,8 +177,8 @@
 
 				spinValue = spinValue-1;		
 		
-				var xLook = 300*Math.cos(30*spinValue*Math.PI/180)+camera.position.x;
-				var yLook = 300*Math.sin(30*spinValue*Math.PI/180)+camera.position.y;					
+				var xLook = 300*Math.cos(degreeOfRotation*spinValue*Math.PI/180)+camera.position.x;
+				var yLook = 300*Math.sin(degreeOfRotation*spinValue*Math.PI/180)+camera.position.y;					
 				
       		camera.lookAt(new THREE.Vector3(xLook, yLook, 210));        		
       		
@@ -147,10 +200,10 @@
 				renderer.render(scene, camera);	
 			}
 			
-			function createMap(bitboard, z){
+			function createMap(bitboard, z, selectedTexture){
 			
-				var boardWidth = 5;
-				var boardHeight = 5;			
+				var boardWidth = 15;
+				var boardHeight = 20;			
 				
 				for(var i=0; i<boardHeight; i++){
 					
@@ -158,7 +211,7 @@
 					
 						if(bitboard[i*boardWidth+j]){
 
-							createNewCube(i, j, z);						
+							createNewCube(i, j, z, selectedTexture);						
 							
 						}					
 						
@@ -168,15 +221,9 @@
 				
 			}
 			
-			function createNewCube(i, j, z){
-				
-		var cubeSize = 200;
+			function createNewCube(i, j, z, selectedTexture){
 			
-    	 var newCube = new THREE.Mesh(new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize), 
-    	// new THREE.MeshLambertMaterial({
-   //	     color: '#' + currentColorCode
-   //	   }));
-   		wood_floor);
+    	 var newCube = new THREE.Mesh(new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize), selectedTexture);
    	   
       newCube.position.x = i*cubeSize;
       newCube.position.y = j*cubeSize;
