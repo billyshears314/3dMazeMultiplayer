@@ -85,8 +85,8 @@
 				console.log("a: " + a);
 				console.log("b: " + b);      		
       		
-				if(board2[b+15*a]===0){
-					return true;					
+				if(board2[b+15*a]===1){
+					return false;					
 				}
-				return false;
+				return true;
       	}

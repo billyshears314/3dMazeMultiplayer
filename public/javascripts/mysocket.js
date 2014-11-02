@@ -1,4 +1,8 @@
-var socket = io.connect('http://localhost:8080');
+//var socket = io.connect('192.168.1.143:8080');
+
+var host = location.origin.replace(/^http/, 'ws');
+var socket = io.connect(host);
+
 var cubeSize = 50;
 
 var characterCube = new THREE.Mesh(new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize), wood_floor);
