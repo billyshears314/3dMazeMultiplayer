@@ -25,7 +25,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-var io = require('socket.io').listen(app.listen(8080));
+/*
+This is changed because heroku won't allow us to use WebSockets
+so we have to setup polling instead
+*/
+//var io = require('socket.io').listen(app.listen(8080));
+io.configure(function (){
+	io.set("transports", ["xhr-polling"]);
+	io.set("polling duration", 10);	
+});
+
 
 var numberOfConnections = 0;
 
