@@ -31,7 +31,6 @@ so we have to setup polling instead
 */
 var io = require('socket.io').listen(app.listen(8080));
 
-
 var numberOfConnections = 0;
 
 io.sockets.on('connection', function (socket) {
@@ -59,7 +58,9 @@ io.sockets.on('connection', function (socket) {
 		});
 
     socket.on('disconnect', function(){
-    	
+    		numberOfConnections--;
+    		console.log("User disconnected");
+    		console.log("Number of connections: " + numberOfConnections);
   		}); 
 });
 
@@ -94,5 +95,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
+console.log("Listening on port 8080");
 
 module.exports = app;
