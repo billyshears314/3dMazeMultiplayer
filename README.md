@@ -1,7 +1,5 @@
 3dMazeMultiplayer
 =============
-To run server: 'node ./bin/www'
-
 This is an attempt of mine at a simple 3d graphics web game using node.js, three.js, and socket.io.  It places the user(s) in the middle of the maze.  The goal is simple right now -> Find a way out of the maze.
 
 Controls:
