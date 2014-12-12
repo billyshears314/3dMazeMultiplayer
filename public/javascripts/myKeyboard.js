@@ -28,7 +28,7 @@
       		console.log("x: " + camera.position.x);
       		console.log("y: " + camera.position.y);
       		
-      		socket.emit('updateCharacterLocation', {x: camera.position.x, y: camera.position.y, z: camera.position.z });
+      		socket.emit('updatePlayerLocation', {x: camera.position.x, y: camera.position.y, z: camera.position.z, });
       	}, 
       	function(){
      		
@@ -47,7 +47,7 @@
 				console.log("x: " + camera.position.x);
       		console.log("y: " + camera.position.y);     			     			
      			
-     			socket.emit('updateCharacterLocation', {x: camera.position.x, y: camera.position.y, z: camera.position.z });
+     			socket.emit('updatePlayerLocation', {x: camera.position.x, y: camera.position.y, z: camera.position.z });
       	}, 
       	function(){
      		
@@ -68,14 +68,14 @@
       	function(){
      		
       	});
-      	
+      	/*
       	KeyboardJS.on('j', function(){
-      		socket.emit('joinWorld', {x: camera.position.x, y: camera.position.y, z: camera.position.z });
+      		socket.emit('joinWorld', {player: playerNumber, x: camera.position.x, y: camera.position.y, z: camera.position.z });
       	}, 
       	function(){
      		
       	});
-      	
+      	*/
       	//Determine whether the the position contains a block or not
       	function isOpenSpace(x, y){
       	

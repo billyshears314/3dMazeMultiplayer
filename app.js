@@ -31,38 +31,56 @@ so we have to setup polling instead
 */
 var io = require('socket.io').listen(app.listen(8080));
 
-var numberOfConnections = 0;
+
+var userData = [];
+var playerNumbers = [];
 
 io.sockets.on('connection', function (socket) {
 
-	numberOfConnections++;
-
-	console.log("Number of connections: " + numberOfConnections);
-
-    socket.on('send', function (data) {
-        io.sockets.emit('message', data);
-    });
+	if(playerNumbers.length>0){
+		socket.usernumber = getLowestNumber();
+	}
+	else{
+		socket.usernumber = 0;	
+	}
+	playerNumbers.push(socket.usernumber);
+  
+	io.sockets.emit('initializeWorld', userData);    
+  
+  	socket.on('updatePlayerLocation', function(data){	
+  		//userData[socket.usernumber] = {id: socket.usernumber, data;
+  		var sendObject = {id: socket.usernumber, location: data};
+  		socket.broadcast.emit('getUpdatedPlayerLocation', sendObject);
+  		console.log("User Data: " + JSON.stringify(userData));
+  	});
     
-    socket.on('joinWorld', function(data){
-		socket.broadcast.emit('joinWorld', data);    	
-    	console.log("Character joined World");
-    });
-    
-      socket.on('updateCharacterLocation', function(data){   	  	
-		  socket.broadcast.emit('updateCharacterLocation', data);  
-    	});
+   socket.on('disconnect', function(){
 
-		socket.on('updateBoard', function(data){
-		//	titan.updateServerModel(data);
-		//	socket.broadcast.emit('getBoardModel', data);		
-		});
+		var index = playerNumbers.indexOf(socket.usernumber);
+		if (index > -1) {
+    		playerNumbers.splice(index, 1);
+    		userData.splice(index, 1);
+		}
+		console.log(JSON.stringify(playerNumbers));
+		 //io.sockets.emit('getUsers', userData);
+		 io.sockets.emit('playerDisconnected', socket.usernumber)
+		
+  	});
+  		console.log(JSON.stringify(playerNumbers));	
+		
+}); 
 
-    socket.on('disconnect', function(){
-    		numberOfConnections--;
-    		console.log("User disconnected");
-    		console.log("Number of connections: " + numberOfConnections);
-  		}); 
-});
+function getLowestNumber(){
+
+	for(var i=0; i<playerNumbers.length; i++){
+		if(playerNumbers.indexOf(i)<0){
+			return i;	
+		}	
+	}
+	
+	return playerNumbers.length;
+	
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
