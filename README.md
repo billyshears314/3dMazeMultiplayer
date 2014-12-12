@@ -1,6 +1,6 @@
-multiplayer3d
+3dMazeMultiplayer
 =============
-This is an attempt of mine at a simple 3d graphics web game using three.js.  It places the user(s) in the middle of the maze.  The goal is simple right now, just try to get out of the maze.
+This is an attempt of mine at a simple 3d graphics web game using node.js, three.js, and socket.io.  It places the user(s) in the middle of the maze.  The goal is simple right now -> Find a way out of the maze.
 
 Controls:
 a -> left
