@@ -1,7 +1,7 @@
-//var socket = io.connect('192.168.1.143:8080');
+var socket = io.connect('http://blockmaze.herokuapp.com');
 
-var host = location.origin.replace(/^http/, 'ws');
-var socket = io.connect(host);
+//var host = location.origin.replace(/^http/, 'ws');
+//var socket = io.connect(host);
 
 var cubeSize = 50;
 var playerNumber = 0;
