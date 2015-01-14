@@ -53,7 +53,7 @@ io.sockets.on('connection', function (socket) {
   		//userData[socket.usernumber] = {id: socket.usernumber, data;
   		var sendObject = {id: socket.usernumber, location: data};
   		socket.broadcast.emit('getUpdatedPlayerLocation', sendObject);
-  		//console.log("User Data: " + JSON.stringify(userData));
+  		console.log("User Data: " + JSON.stringify(userData));
   	});
     
    socket.on('disconnect', function(){

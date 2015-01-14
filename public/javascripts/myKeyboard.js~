@@ -10,9 +10,9 @@ KeyboardJS.on('a', function(){
 	//	camera.position.y = camera.position.y + speed;
 	//	socket.emit('updateCharacterLocation', {x: camera.position.x, y: camera.position.y, z: camera.position.z });
 	}, 
-function(){
+	function(){
 
-});
+	});
 	
 KeyboardJS.on('s', function(){
 	

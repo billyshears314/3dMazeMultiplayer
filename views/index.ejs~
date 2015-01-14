@@ -11,7 +11,7 @@
   <body>
 
    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+  	<script src="http://blockmaze.herokuapp.com/socket.io/socket.io.js"></script>
   	<script src="javascripts/threex_dynamictextures.js"></script>
 	<script src="javascripts/keyboard.js"></script>
 	<script src="javascripts/three.min.js"></script>
